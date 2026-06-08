@@ -1,7 +1,10 @@
 package com.example.projectlast;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -185,7 +188,10 @@ public class MapActivity extends AppCompatActivity {
                 });
             }
         }, new KakaoMapReadyCallback() {
-            @Override public void onMapReady(@NonNull KakaoMap map) { kakaoMap = map; }
+            @Override public void onMapReady(@NonNull KakaoMap map) {
+                kakaoMap = map;
+                runOnUiThread(() -> addZoomButtons());
+            }
         });
     }
 
@@ -431,19 +437,76 @@ public class MapActivity extends AppCompatActivity {
         if (layer == null) return;
         layer.removeAll();
 
-        // 중간지점 마커
+        // 중간지점 마커 (보라색 원)
         if (centerLat != 0) {
-            LabelStyles cs = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_add)));
+            Bitmap centerBm = createCircleMarker("#827EFF", "#FFFFFF", dp(36));
+            LabelStyles cs = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(centerBm)));
             layer.addLabel(LabelOptions.from("center", LatLng.from(centerLat, centerLng)).setStyles(cs));
         }
-        // 카페 핀
+        // 카페 핀 (기존 PNG 사용)
         for (int i = 0; i < placeList.size(); i++) {
             PlaceItem p = placeList.get(i);
             if (p.lat != 0 && p.lng != 0) {
-                LabelStyles ps = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_map_pin_cafe)));
+                LabelStyles ps = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_map_pin)));
                 layer.addLabel(LabelOptions.from("cafe_" + i, LatLng.from(p.lat, p.lng)).setStyles(ps));
             }
         }
+    }
+
+    private void addZoomButtons() {
+        LinearLayout zoomBox = new LinearLayout(this);
+        zoomBox.setOrientation(LinearLayout.VERTICAL);
+        zoomBox.setBackgroundColor(Color.WHITE);
+        zoomBox.setElevation(6f);
+        FrameLayout.LayoutParams boxLp = new FrameLayout.LayoutParams(dp(36), dp(72));
+        boxLp.gravity = Gravity.BOTTOM | Gravity.END;
+        boxLp.setMargins(0, 0, dp(8), dp(8));
+        zoomBox.setLayoutParams(boxLp);
+
+        TextView btnIn = makeZoomButton("+");
+        TextView btnOut = makeZoomButton("−");
+
+        View divider = new View(this);
+        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1));
+        divider.setBackgroundColor(Color.parseColor("#E0E0E0"));
+
+        btnIn.setOnClickListener(v -> {
+            if (kakaoMap != null) kakaoMap.moveCamera(CameraUpdateFactory.zoomIn());
+        });
+        btnOut.setOnClickListener(v -> {
+            if (kakaoMap != null) kakaoMap.moveCamera(CameraUpdateFactory.zoomOut());
+        });
+
+        zoomBox.addView(btnIn);
+        zoomBox.addView(divider);
+        zoomBox.addView(btnOut);
+        flMapContainer.addView(zoomBox);
+    }
+
+    private TextView makeZoomButton(String label) {
+        TextView tv = new TextView(this);
+        tv.setLayoutParams(new LinearLayout.LayoutParams(dp(36), 0, 1f));
+        tv.setText(label);
+        tv.setTextSize(20f);
+        tv.setTextColor(Color.parseColor("#333333"));
+        tv.setGravity(Gravity.CENTER);
+        tv.setClickable(true);
+        tv.setFocusable(true);
+        return tv;
+    }
+
+    private Bitmap createCircleMarker(String fillColor, String strokeColor, int size) {
+        Bitmap bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bm);
+        float r = size / 2f;
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(Color.parseColor(fillColor));
+        canvas.drawCircle(r, r, r - 3, paint);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(4);
+        paint.setColor(Color.parseColor(strokeColor));
+        canvas.drawCircle(r, r, r - 5, paint);
+        return bm;
     }
 
     // ── 주변 카페 검색 ───────────────────────────────────────────────────────
