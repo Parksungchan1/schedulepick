@@ -289,24 +289,9 @@ public class MapActivity extends AppCompatActivity {
         double avgLng = lngSum / count;
 
         showOnMap(avgLat, avgLng);
-
-        tvCenterAddress.setText("중간 지점: 충남 천안시 동남구 신부동 일대");
         layoutMapArea.setVisibility(android.view.View.VISIBLE);
-
-        placeList.clear();
-        for (TestData.MockCafe cafe : TestData.getMockCafes()) {
-            PlaceItem p = new PlaceItem();
-            p.name     = cafe.name;
-            p.address  = cafe.address;
-            p.lat      = cafe.lat;
-            p.lng      = cafe.lng;
-            p.distance = cafe.distance;
-            placeList.add(p);
-        }
-        placeAdapter.notifyDataSetChanged();
-        layoutCafesSection.setVisibility(android.view.View.VISIBLE);
-        addMarkersOnMap();
-
+        searchNearbyPlaces(avgLat, avgLng);
+        reverseGeocode(avgLat, avgLng);
         Toast.makeText(this, "중간지점을 찾았습니다!", Toast.LENGTH_SHORT).show();
     }
 
