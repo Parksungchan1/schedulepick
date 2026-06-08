@@ -124,7 +124,19 @@ public class MapActivity extends AppCompatActivity {
     // ── 카카오맵 초기화 ──────────────────────────────────────────────────────
 
     private void initMapView() {
-        if (!MyApplication.kakaoMapAvailable) return;
+        if (!MyApplication.kakaoMapAvailable) {
+            // 에뮬레이터(x86_64)에서는 지도 대신 안내 문구 표시
+            android.widget.TextView tvMapNotice = new android.widget.TextView(this);
+            tvMapNotice.setText("지도는 실제 Android 기기에서 지원됩니다");
+            tvMapNotice.setTextSize(13f);
+            tvMapNotice.setTextColor(android.graphics.Color.parseColor("#888888"));
+            tvMapNotice.setGravity(android.view.Gravity.CENTER);
+            tvMapNotice.setLayoutParams(new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT));
+            flMapContainer.addView(tvMapNotice);
+            return;
+        }
 
         mapView = new MapView(this);
         mapView.setOnTouchListener((v, event) -> {
@@ -146,7 +158,22 @@ public class MapActivity extends AppCompatActivity {
 
         mapView.start(new MapLifeCycleCallback() {
             @Override public void onMapDestroy() {}
-            @Override public void onMapError(Exception e) {}
+            @Override public void onMapError(Exception e) {
+                android.util.Log.e("MapActivity", "KakaoMap error: " + e);
+                runOnUiThread(() -> {
+                    android.widget.TextView tvErr = new android.widget.TextView(MapActivity.this);
+                    tvErr.setText("지도 오류: " + e.getMessage());
+                    tvErr.setTextSize(11f);
+                    tvErr.setTextColor(android.graphics.Color.parseColor("#FF5858"));
+                    tvErr.setGravity(android.view.Gravity.CENTER);
+                    tvErr.setPadding(16, 16, 16, 16);
+                    tvErr.setLayoutParams(new FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT));
+                    flMapContainer.removeAllViews();
+                    flMapContainer.addView(tvErr);
+                });
+            }
         }, new KakaoMapReadyCallback() {
             @Override public void onMapReady(@NonNull KakaoMap map) { kakaoMap = map; }
         });
