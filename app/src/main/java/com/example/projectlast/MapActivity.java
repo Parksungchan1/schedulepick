@@ -68,6 +68,7 @@ public class MapActivity extends AppCompatActivity {
     private PlaceAdapter placeAdapter;
     private int    selectedPlaceIndex = -1;
     private String selectedPlaceName  = "";
+    private double centerLat = 0, centerLng = 0;
 
     private FirebaseFirestore db;
 
@@ -91,7 +92,16 @@ public class MapActivity extends AppCompatActivity {
 
         placeAdapter = new PlaceAdapter(placeList, idx -> {
             selectedPlaceIndex = idx;
-            selectedPlaceName  = (idx >= 0 && idx < placeList.size()) ? placeList.get(idx).name : "";
+            if (idx >= 0 && idx < placeList.size()) {
+                PlaceItem p = placeList.get(idx);
+                selectedPlaceName = p.name;
+                if (kakaoMap != null && p.lat != 0) {
+                    kakaoMap.moveCamera(CameraUpdateFactory.newCenterPosition(
+                            LatLng.from(p.lat, p.lng), 17));
+                }
+            } else {
+                selectedPlaceName = "";
+            }
         });
         rvCafes.setLayoutManager(new LinearLayoutManager(this));
         rvCafes.setAdapter(placeAdapter);
@@ -294,6 +304,7 @@ public class MapActivity extends AppCompatActivity {
         }
         placeAdapter.notifyDataSetChanged();
         layoutCafesSection.setVisibility(android.view.View.VISIBLE);
+        addMarkersOnMap();
 
         Toast.makeText(this, "중간지점을 찾았습니다!", Toast.LENGTH_SHORT).show();
     }
@@ -405,16 +416,32 @@ public class MapActivity extends AppCompatActivity {
     // ── 카카오맵 마커 표시 ───────────────────────────────────────────────────
 
     private void showOnMap(double lat, double lng) {
+        centerLat = lat;
+        centerLng = lng;
         if (kakaoMap == null) return;
         kakaoMap.moveCamera(CameraUpdateFactory.newCenterPosition(LatLng.from(lat, lng), 15));
+        addMarkersOnMap();
+    }
+
+    private void addMarkersOnMap() {
+        if (kakaoMap == null) return;
         com.kakao.vectormap.label.LabelManager lm = kakaoMap.getLabelManager();
-        if (lm != null) {
-            LabelLayer layer = lm.getLayer();
-            if (layer != null) {
-                layer.removeAll();
-                LabelStyles styles = lm.addLabelStyles(
-                        LabelStyles.from(LabelStyle.from(R.drawable.ic_add)));
-                layer.addLabel(LabelOptions.from("center", LatLng.from(lat, lng)).setStyles(styles));
+        if (lm == null) return;
+        LabelLayer layer = lm.getLayer();
+        if (layer == null) return;
+        layer.removeAll();
+
+        // 중간지점 마커
+        if (centerLat != 0) {
+            LabelStyles cs = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_add)));
+            layer.addLabel(LabelOptions.from("center", LatLng.from(centerLat, centerLng)).setStyles(cs));
+        }
+        // 카페 핀
+        for (int i = 0; i < placeList.size(); i++) {
+            PlaceItem p = placeList.get(i);
+            if (p.lat != 0 && p.lng != 0) {
+                LabelStyles ps = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_map_pin_cafe)));
+                layer.addLabel(LabelOptions.from("cafe_" + i, LatLng.from(p.lat, p.lng)).setStyles(ps));
             }
         }
     }
@@ -465,6 +492,7 @@ public class MapActivity extends AppCompatActivity {
                     placeList.addAll(results);
                     placeAdapter.notifyDataSetChanged();
                     layoutCafesSection.setVisibility(View.VISIBLE);
+                    addMarkersOnMap();
                 });
             } catch (Exception e) {
                 runOnUiThread(() ->
