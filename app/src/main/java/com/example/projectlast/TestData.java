@@ -21,10 +21,10 @@ public class TestData {
     // uid → [nickname, address, email, lat, lng]
     private static final Map<String, String[]> USERS = new LinkedHashMap<>();
     static {
-        USERS.put("park", new String[]{"박성찬", "충남 천안시 동남구 만남로 43",           "park@test.com", "36.8151", "127.1139"});
-        USERS.put("yoon", new String[]{"윤어진", "충남 천안시 동남구 충절로 295-14",       "yoon@test.com", "36.8089", "127.1442"});
-        USERS.put("koo",  new String[]{"구민정", "충남 천안시 서북구 두정로 289 두정역",   "koo@test.com",  "36.8471", "127.1313"});
-        USERS.put("hong", new String[]{"홍길동", "충남 천안시 동남구 대흥로 239",          "hong@test.com", "36.8066", "127.1522"});
+        USERS.put("park", new String[]{"박성찬", "충남 천안시 동남구 만남로 43",           "park@test.com", "36.8150", "127.1480"});
+        USERS.put("yoon", new String[]{"윤어진", "충남 천안시 동남구 충절로 295-14",       "yoon@test.com", "36.8085", "127.1560"});
+        USERS.put("koo",  new String[]{"구민정", "충남 천안시 서북구 두정로 289 두정역",   "koo@test.com",  "36.8380", "127.1600"});
+        USERS.put("hong", new String[]{"홍길동", "충남 천안시 동남구 대흥로 239",          "hong@test.com", "36.8095", "127.1540"});
     }
 
     public static int getProfileDrawable(String id) {
@@ -65,12 +65,12 @@ public class TestData {
 
     public static List<MockCafe> getMockCafes() {
         List<MockCafe> list = new ArrayList<>();
-        list.add(new MockCafe("스타벅스 천안신부점",   "충남 천안시 동남구 신부동 432-3",  36.8194, 127.1148, 120));
-        list.add(new MockCafe("투썸플레이스 천안터미널점","충남 천안시 동남구 대흥로 108",  36.8155, 127.1195, 280));
-        list.add(new MockCafe("메가커피 천안청수점",    "충남 천안시 서북구 청수14로 59",   36.8302, 127.1265, 410));
-        list.add(new MockCafe("이디야커피 천안두정점",  "충남 천안시 서북구 두정로 124",    36.8388, 127.1310, 530));
-        list.add(new MockCafe("할리스 천안아산역점",    "충남 천안시 서북구 봉정로 88",     36.7966, 127.1044, 680));
-        list.add(new MockCafe("공차 천안신부점",        "충남 천안시 동남구 신부동 398",    36.8171, 127.1132, 210));
+        list.add(new MockCafe("스타벅스 천안신부점",      "충남 천안시 동남구 신부동 354-1",  36.81929, 127.15775, 330));
+        list.add(new MockCafe("투썸플레이스 천안신부점", "충남 천안시 동남구 신부동 456-15", 36.81778, 127.15503,  50));
+        list.add(new MockCafe("메가MGC커피 천안신부점",  "충남 천안시 동남구 신부동 737",    36.82110, 127.15803, 480));
+        list.add(new MockCafe("이디야커피 천안신부동점", "충남 천안시 동남구 신부동 486-9",  36.81763, 127.16072, 550));
+        list.add(new MockCafe("할리스 천안신부점",       "충남 천안시 동남구 신부동 454-5",  36.81854, 127.15498, 100));
+        list.add(new MockCafe("공차 천안신부점",         "충남 천안시 동남구 신부동 462-6",  36.81868, 127.15762, 220));
         return list;
     }
 
