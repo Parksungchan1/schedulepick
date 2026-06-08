@@ -72,6 +72,8 @@ public class MapActivity extends AppCompatActivity {
     private int    selectedPlaceIndex = -1;
     private String selectedPlaceName  = "";
     private double centerLat = 0, centerLng = 0;
+    private LabelStyles cachedCenterStyle = null;
+    private LabelStyles cachedCafeStyle   = null;
 
     private FirebaseFirestore db;
 
@@ -138,7 +140,6 @@ public class MapActivity extends AppCompatActivity {
 
     private void initMapView() {
         if (!MyApplication.kakaoMapAvailable) {
-            // 에뮬레이터(x86_64)에서는 지도 대신 안내 문구 표시
             android.widget.TextView tvMapNotice = new android.widget.TextView(this);
             tvMapNotice.setText("지도는 실제 Android 기기에서 지원됩니다");
             tvMapNotice.setTextSize(13f);
@@ -200,7 +201,6 @@ public class MapActivity extends AppCompatActivity {
     private String[] getParticipantUids() {
         String[] uids = getIntent().getStringArrayExtra("participantUids");
         if (uids != null && uids.length > 0) return uids;
-        // fallback: 전체 그룹 멤버
         List<Friend> all = TestData.getGroupMembers();
         String[] result = new String[all.size()];
         for (int i = 0; i < all.size(); i++) result[i] = all.get(i).getUid();
@@ -275,8 +275,6 @@ public class MapActivity extends AppCompatActivity {
 
     // ── 중간지점 찾기 ────────────────────────────────────────────────────────
 
-    // ── 테스트 모드 전용: API 없이 하드코딩 좌표 사용 ────────────────────────
-
     private void findMeetingPointTestMode() {
         double latSum = 0, lngSum = 0;
         int count = 0;
@@ -287,17 +285,14 @@ public class MapActivity extends AppCompatActivity {
         }
         if (count == 0) return;
 
-        double avgLat = latSum / count;   // ≈ 36.8194
-        double avgLng = lngSum / count;   // ≈ 127.1354
+        double avgLat = latSum / count;
+        double avgLng = lngSum / count;
 
-        // 지도 표시
         showOnMap(avgLat, avgLng);
 
-        // 중간지점 주소 텍스트
         tvCenterAddress.setText("중간 지점: 충남 천안시 동남구 신부동 일대");
         layoutMapArea.setVisibility(android.view.View.VISIBLE);
 
-        // 목업 카페 목록 표시
         placeList.clear();
         for (TestData.MockCafe cafe : TestData.getMockCafes()) {
             PlaceItem p = new PlaceItem();
@@ -316,7 +311,6 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void findMeetingPoint() {
-        // ── 테스트 모드: API 없이 하드코딩 좌표로 바로 처리 ──
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         if (prefs.getBoolean("test_login", false)) {
             findMeetingPointTestMode();
@@ -333,7 +327,6 @@ public class MapActivity extends AppCompatActivity {
             return;
         }
 
-        // 버튼 비활성화로 진행 중 표시
         TextView btnFind = findViewById(R.id.btn_find_center);
         btnFind.setEnabled(false);
         btnFind.setText("검색 중...");
@@ -405,7 +398,6 @@ public class MapActivity extends AppCompatActivity {
                 directItem.lng      = lng;
                 directItem.distance = 0;
 
-                // 직접 입력 항목을 목록 맨 앞에 추가
                 placeList.removeIf(p -> p.distance == 0);
                 placeList.add(0, directItem);
                 placeAdapter.notifyDataSetChanged();
@@ -419,7 +411,7 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
-    // ── 카카오맵 마커 표시 ───────────────────────────────────────────────────
+    // ── 지도 마커 ────────────────────────────────────────────────────────────
 
     private void showOnMap(double lat, double lng) {
         centerLat = lat;
@@ -437,21 +429,63 @@ public class MapActivity extends AppCompatActivity {
         if (layer == null) return;
         layer.removeAll();
 
-        // 중간지점 마커 (보라색 원)
-        if (centerLat != 0) {
-            Bitmap centerBm = createCircleMarker("#827EFF", "#FFFFFF", dp(36));
-            LabelStyles cs = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(centerBm)));
-            layer.addLabel(LabelOptions.from("center", LatLng.from(centerLat, centerLng)).setStyles(cs));
+        // 스타일 최초 1회만 생성 (중복 addLabelStyles 방지)
+        if (cachedCenterStyle == null) {
+            cachedCenterStyle = lm.addLabelStyles(
+                    LabelStyles.from(LabelStyle.from(makePinBitmap("#827EFF", true))));
         }
-        // 카페 핀 (기존 PNG 사용)
+        if (cachedCafeStyle == null) {
+            cachedCafeStyle = lm.addLabelStyles(
+                    LabelStyles.from(LabelStyle.from(makePinBitmap("#FF4444", false))));
+        }
+
+        // 중간지점 마커
+        if (centerLat != 0 && cachedCenterStyle != null) {
+            layer.addLabel(LabelOptions.from("center", LatLng.from(centerLat, centerLng))
+                    .setStyles(cachedCenterStyle));
+        }
+        // 카페 핀
         for (int i = 0; i < placeList.size(); i++) {
             PlaceItem p = placeList.get(i);
-            if (p.lat != 0 && p.lng != 0) {
-                LabelStyles ps = lm.addLabelStyles(LabelStyles.from(LabelStyle.from(R.drawable.ic_map_pin)));
-                layer.addLabel(LabelOptions.from("cafe_" + i, LatLng.from(p.lat, p.lng)).setStyles(ps));
+            if (p.lat != 0 && p.lng != 0 && cachedCafeStyle != null) {
+                layer.addLabel(LabelOptions.from("cafe_" + i, LatLng.from(p.lat, p.lng))
+                        .setStyles(cachedCafeStyle));
             }
         }
     }
+
+    /** Canvas로 그린 핀 비트맵 (외부 파일 의존 없음) */
+    private Bitmap makePinBitmap(String fillHex, boolean isCenter) {
+        int w  = dp(28);
+        int h  = isCenter ? w : dp(40);
+        Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c  = new Canvas(bm);
+        float  r  = w / 2f;
+        Paint  pt = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+        pt.setStyle(Paint.Style.FILL);
+        pt.setColor(Color.parseColor(fillHex));
+        c.drawCircle(r, r, r - 2, pt);
+
+        pt.setStyle(Paint.Style.STROKE);
+        pt.setStrokeWidth(3);
+        pt.setColor(Color.WHITE);
+        c.drawCircle(r, r, r - 3, pt);
+
+        if (!isCenter) {
+            pt.setStyle(Paint.Style.FILL);
+            pt.setColor(Color.parseColor(fillHex));
+            android.graphics.Path path = new android.graphics.Path();
+            path.moveTo(r - 6, w - 4f);
+            path.lineTo(r + 6, w - 4f);
+            path.lineTo(r, h - 2f);
+            path.close();
+            c.drawPath(path, pt);
+        }
+        return bm;
+    }
+
+    // ── 줌 버튼 ─────────────────────────────────────────────────────────────
 
     private void addZoomButtons() {
         LinearLayout zoomBox = new LinearLayout(this);
@@ -463,11 +497,12 @@ public class MapActivity extends AppCompatActivity {
         boxLp.setMargins(0, 0, dp(8), dp(8));
         zoomBox.setLayoutParams(boxLp);
 
-        TextView btnIn = makeZoomButton("+");
+        TextView btnIn  = makeZoomButton("+");
         TextView btnOut = makeZoomButton("−");
 
         View divider = new View(this);
-        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 1));
+        divider.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 1));
         divider.setBackgroundColor(Color.parseColor("#E0E0E0"));
 
         btnIn.setOnClickListener(v -> {
@@ -493,20 +528,6 @@ public class MapActivity extends AppCompatActivity {
         tv.setClickable(true);
         tv.setFocusable(true);
         return tv;
-    }
-
-    private Bitmap createCircleMarker(String fillColor, String strokeColor, int size) {
-        Bitmap bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bm);
-        float r = size / 2f;
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(Color.parseColor(fillColor));
-        canvas.drawCircle(r, r, r - 3, paint);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
-        paint.setColor(Color.parseColor(strokeColor));
-        canvas.drawCircle(r, r, r - 5, paint);
-        return bm;
     }
 
     // ── 주변 카페 검색 ───────────────────────────────────────────────────────
@@ -545,7 +566,6 @@ public class MapActivity extends AppCompatActivity {
                 }
 
                 runOnUiThread(() -> {
-                    // 직접 입력 항목은 유지
                     List<PlaceItem> directItems = new ArrayList<>();
                     for (PlaceItem p : placeList) {
                         if (p.distance == 0) directItems.add(p);
@@ -615,7 +635,6 @@ public class MapActivity extends AppCompatActivity {
                 android.util.Log.d("MapActivity", "geocode [" + address + "] HTTP=" + httpCode);
 
                 if (httpCode != 200) {
-                    // 에러 응답 본문 읽기 (디버그용)
                     java.io.InputStream errStream = conn.getErrorStream();
                     if (errStream != null) {
                         BufferedReader er = new BufferedReader(
@@ -624,8 +643,7 @@ public class MapActivity extends AppCompatActivity {
                         String l;
                         while ((l = er.readLine()) != null) errSb.append(l);
                         er.close();
-                        android.util.Log.e("MapActivity",
-                                "API error " + httpCode + ": " + errSb);
+                        android.util.Log.e("MapActivity", "API error " + httpCode + ": " + errSb);
                     }
                     callback.onResult(Double.NaN, Double.NaN);
                     return;
@@ -639,22 +657,16 @@ public class MapActivity extends AppCompatActivity {
                 reader.close();
 
                 JSONArray docs = new JSONObject(sb.toString()).getJSONArray("documents");
-                android.util.Log.d("MapActivity",
-                        "geocode [" + address + "] results=" + docs.length());
-
                 if (docs.length() > 0) {
                     JSONObject first = docs.getJSONObject(0);
                     double lat = Double.parseDouble(first.getString("y"));
                     double lng = Double.parseDouble(first.getString("x"));
-                    android.util.Log.d("MapActivity",
-                            "geocode [" + address + "] → lat=" + lat + " lng=" + lng);
                     callback.onResult(lat, lng);
                 } else {
-                    android.util.Log.w("MapActivity", "geocode [" + address + "] → 결과 없음");
                     callback.onResult(Double.NaN, Double.NaN);
                 }
             } catch (Exception e) {
-                android.util.Log.e("MapActivity", "geocode 예외 [" + address + "]: " + e);
+                android.util.Log.e("MapActivity", "geocode 예외: " + e);
                 callback.onResult(Double.NaN, Double.NaN);
             }
         }).start();
@@ -668,7 +680,6 @@ public class MapActivity extends AppCompatActivity {
             return;
         }
 
-        // 장소명 + 주소 결합
         String locationStr = selectedPlaceName;
         if (selectedPlaceIndex >= 0 && selectedPlaceIndex < placeList.size()) {
             PlaceItem place = placeList.get(selectedPlaceIndex);
@@ -680,7 +691,6 @@ public class MapActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
         if (prefs.getBoolean("test_login", false)) {
-            // 런타임 일정의 location 필드 업데이트
             if (scheduleId != null) {
                 for (Schedule sc : TestData.runtimeSchedules) {
                     if (scheduleId.equals(sc.getScheduleId())) {
