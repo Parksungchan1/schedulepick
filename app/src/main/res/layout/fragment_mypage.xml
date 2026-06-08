@@ -56,11 +56,6 @@
                     android:src="@drawable/ic_notifications"
                     android:contentDescription="알림"/>
 
-                <View
-                    android:layout_width="11dp"
-                    android:layout_height="11dp"
-                    android:background="@drawable/bg_notification_dot"
-                    android:layout_gravity="top|end"/>
 
             </FrameLayout>
 
