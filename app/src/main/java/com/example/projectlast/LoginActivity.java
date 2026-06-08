@@ -1,8 +1,13 @@
 package com.example.projectlast;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.security.MessageDigest;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_login);
+        printKeyHash();
 
         etEmail    = findViewById(R.id.et_id);
         etPassword = findViewById(R.id.et_password);
@@ -51,6 +59,22 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "발송 실패: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
+    }
+
+    private void printKeyHash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature sig : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(sig.toByteArray());
+                String hash = Base64.encodeToString(md.digest(), Base64.DEFAULT).trim();
+                Log.d("KeyHash", "KeyHash: " + hash);
+                Toast.makeText(this, "키해시: " + hash, Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            Log.e("KeyHash", "Error: " + e);
+        }
     }
 
     private void login() {
