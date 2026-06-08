@@ -691,6 +691,9 @@ public class GroupCalendarFragment extends Fragment {
         android.content.SharedPreferences prefs =
                 requireContext().getSharedPreferences("auth", android.content.Context.MODE_PRIVATE);
         if (prefs.getBoolean("test_login", false)) {
+            TestData.leftGroups.add(groupId);
+            TestData.runtimeGroups.removeIf(g -> g.getGroupId().equals(groupId));
+            TestData.runtimeGroupMembers.remove(groupId);
             android.widget.Toast.makeText(getContext(), "그룹에서 나갔습니다.", android.widget.Toast.LENGTH_SHORT).show();
             if (getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).navigateToHome();

@@ -17,6 +17,8 @@ public class TestData {
     public static final List<Group> runtimeGroups = new ArrayList<>();
     // runtime 그룹 멤버 UIDs: groupId → List<uid>
     public static final java.util.Map<String, List<String>> runtimeGroupMembers = new java.util.HashMap<>();
+    // 나간 그룹 ID 목록 (테스트 모드에서 나가기 처리용)
+    public static final java.util.Set<String> leftGroups = new java.util.HashSet<>();
 
     // uid → [nickname, address, email, lat, lng]
     private static final Map<String, String[]> USERS = new LinkedHashMap<>();
@@ -77,8 +79,12 @@ public class TestData {
     // ── 그룹 ──────────────────────────────────────────────────
     public static List<Group> getGroups() {
         List<Group> list = new ArrayList<>();
-        list.add(new Group(GROUP_ID, "팀 프로젝트 팀", "박성찬", 4, "2026.05"));
-        list.addAll(runtimeGroups);
+        if (!leftGroups.contains(GROUP_ID)) {
+            list.add(new Group(GROUP_ID, "팀 프로젝트 팀", "박성찬", 4, "2026.05"));
+        }
+        for (Group g : runtimeGroups) {
+            if (!leftGroups.contains(g.getGroupId())) list.add(g);
+        }
         return list;
     }
 
