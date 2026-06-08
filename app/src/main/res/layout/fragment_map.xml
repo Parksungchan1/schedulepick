@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <!-- ── 상단 바 ── -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:paddingHorizontal="20dp"
+        android:background="#F5F5F5">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="24dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_logo"
+            android:scaleType="fitCenter"
+            android:contentDescription="로고"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/tv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCHEDULE\nPICK"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:lineSpacingExtra="2dp"
+            android:layout_toEndOf="@id/iv_logo"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_notification"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_notifications"
+                android:contentDescription="알림"/>
+
+            <View
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:background="@drawable/bg_notification_dot"
+                android:layout_gravity="top|end"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+    <!-- ── 스크롤 영역 ── -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ── 위치 입력 카드 ── -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="위치 입력"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- 위치 입력 행 목록 (Java에서 동적 추가) -->
+                    <LinearLayout
+                        android:id="@+id/layout_location_inputs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                    <!-- 위치 추가 버튼 -->
+                    <TextView
+                        android:id="@+id/btn_add_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="+ 위치 추가"
+                        android:textSize="12sp"
+                        android:textColor="#827EFF"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="8dp"
+                        android:clickable="true"
+                        android:focusable="true"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── 약속장소 찾기 버튼 ── -->
+            <FrameLayout
+                android:id="@+id/btn_find_place"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_login_button"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="약속장소 찾기"
+                    android:textSize="15sp"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+
+            <!-- ── 카카오맵 컨테이너 ── -->
+            <FrameLayout
+                android:id="@+id/fl_map_container"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:background="#E0E0E0">
+
+                <!-- MapView가 Java에서 동적으로 추가됨 -->
+
+                <!-- 안내 텍스트 (지도 로드 전) -->
+                <TextView
+                    android:id="@+id/tv_map_placeholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="위치를 입력하고\n약속장소 찾기를 눌러주세요"
+                    android:textSize="13sp"
+                    android:textColor="#888888"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"/>
+
+            </FrameLayout>
+
+            <!-- ── 중간지점 정보 (찾기 후 표시) ── -->
+            <LinearLayout
+                android:id="@+id/layout_center_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/bg_today_circle"
+                    android:layout_marginEnd="6dp"/>
+
+                <TextView
+                    android:id="@+id/tv_center_address"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:textColor="#535353"/>
+
+            </LinearLayout>
+
+            <!-- ── 주변 카페 섹션 ── -->
+            <LinearLayout
+                android:id="@+id/layout_cafes_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="14dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="주변 카페"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_cafe_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="11sp"
+                        android:textColor="#A2A2A2"/>
+
+                </LinearLayout>
+
+                <!-- 카페 목록 RecyclerView -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_cafes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="24dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

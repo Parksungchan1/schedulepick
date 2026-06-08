@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp" android:height="100dp"
+    android:viewportWidth="100" android:viewportHeight="100">
+
+    <!-- 갈색 배경 -->
+    <path android:fillColor="#5D4037" android:pathData="M0,0H100V100H0Z"/>
+
+    <!-- 왼쪽 귀 (축 늘어진 타원형) -->
+    <path android:fillColor="#4E342E"
+        android:pathData="M10,30 A18,30,0,1,0,32,80 A18,30,0,1,0,10,30 Z"/>
+    <!-- 왼쪽 귀 안쪽 -->
+    <path android:fillColor="#795548"
+        android:pathData="M14,36 A12,22,0,1,0,30,74 A12,22,0,1,0,14,36 Z"/>
+
+    <!-- 오른쪽 귀 (축 늘어진 타원형) -->
+    <path android:fillColor="#4E342E"
+        android:pathData="M68,30 A18,30,0,1,0,90,80 A18,30,0,1,0,68,30 Z"/>
+    <!-- 오른쪽 귀 안쪽 -->
+    <path android:fillColor="#795548"
+        android:pathData="M70,36 A12,22,0,1,0,86,74 A12,22,0,1,0,70,36 Z"/>
+
+    <!-- 얼굴 원 -->
+    <path android:fillColor="#8D6E63"
+        android:pathData="M50,18 A34,34,0,1,0,50,86 A34,34,0,1,0,50,18 Z"/>
+
+    <!-- 주둥이 (밝은 타원) -->
+    <path android:fillColor="#BCAAA4"
+        android:pathData="M35,62 A15,12,0,1,0,65,62 A15,12,0,1,0,35,62 Z"/>
+
+    <!-- 왼쪽 눈 -->
+    <path android:fillColor="#212121"
+        android:pathData="M36,50 A6,6,0,1,0,36,38 A6,6,0,1,0,36,50 Z"/>
+    <!-- 왼쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M39,41 A2,2,0,1,0,39,37 A2,2,0,1,0,39,41 Z"/>
+
+    <!-- 오른쪽 눈 -->
+    <path android:fillColor="#212121"
+        android:pathData="M64,50 A6,6,0,1,0,64,38 A6,6,0,1,0,64,50 Z"/>
+    <!-- 오른쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M67,41 A2,2,0,1,0,67,37 A2,2,0,1,0,67,41 Z"/>
+
+    <!-- 코 (검은 타원) -->
+    <path android:fillColor="#212121"
+        android:pathData="M46,63 A4,3,0,1,0,54,63 A4,3,0,1,0,46,63 Z"/>
+
+    <!-- 입 -->
+    <path android:strokeColor="#4E342E" android:strokeWidth="1.8" android:fillColor="#00000000"
+        android:pathData="M44,68 Q50,74 56,68"/>
+</vector>

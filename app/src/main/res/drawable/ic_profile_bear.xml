@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp" android:height="100dp"
+    android:viewportWidth="100" android:viewportHeight="100">
+
+    <!-- 파란 배경 -->
+    <path android:fillColor="#1565C0" android:pathData="M0,0H100V100H0Z"/>
+
+    <!-- 왼쪽 귀 (작은 원형) -->
+    <path android:fillColor="#4E342E"
+        android:pathData="M18,32 A16,16,0,1,0,18,0 A16,16,0,1,0,18,32 Z"/>
+    <!-- 왼쪽 귀 안쪽 -->
+    <path android:fillColor="#795548"
+        android:pathData="M18,26 A10,10,0,1,0,18,6 A10,10,0,1,0,18,26 Z"/>
+
+    <!-- 오른쪽 귀 (작은 원형) -->
+    <path android:fillColor="#4E342E"
+        android:pathData="M82,32 A16,16,0,1,0,82,0 A16,16,0,1,0,82,32 Z"/>
+    <!-- 오른쪽 귀 안쪽 -->
+    <path android:fillColor="#795548"
+        android:pathData="M82,26 A10,10,0,1,0,82,6 A10,10,0,1,0,82,26 Z"/>
+
+    <!-- 얼굴 원 -->
+    <path android:fillColor="#6D4C41"
+        android:pathData="M50,20 A36,36,0,1,0,50,92 A36,36,0,1,0,50,20 Z"/>
+
+    <!-- 주둥이 (베이지 타원) -->
+    <path android:fillColor="#BCAAA4"
+        android:pathData="M34,66 A16,13,0,1,0,66,66 A16,13,0,1,0,34,66 Z"/>
+
+    <!-- 왼쪽 눈 -->
+    <path android:fillColor="#212121"
+        android:pathData="M36,52 A7,7,0,1,0,36,38 A7,7,0,1,0,36,52 Z"/>
+    <!-- 왼쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M39,43 A2.5,2.5,0,1,0,39,38 A2.5,2.5,0,1,0,39,43 Z"/>
+
+    <!-- 오른쪽 눈 -->
+    <path android:fillColor="#212121"
+        android:pathData="M64,52 A7,7,0,1,0,64,38 A7,7,0,1,0,64,52 Z"/>
+    <!-- 오른쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M67,43 A2.5,2.5,0,1,0,67,38 A2.5,2.5,0,1,0,67,43 Z"/>
+
+    <!-- 코 (검은 타원) -->
+    <path android:fillColor="#212121"
+        android:pathData="M45,64 A5,4,0,1,0,55,64 A5,4,0,1,0,45,64 Z"/>
+
+    <!-- 입 -->
+    <path android:strokeColor="#4E342E" android:strokeWidth="2" android:fillColor="#00000000"
+        android:pathData="M43,70 Q50,77 57,70"/>
+</vector>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="42dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_group_item"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="14dp">
+
+    <!-- 그룹명 -->
+    <TextView
+        android:id="@+id/tv_group_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="13sp"
+        android:textColor="#FFFFFF"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <!-- 멤버 원형 점 -->
+    <View
+        android:layout_width="19dp"
+        android:layout_height="18dp"
+        android:background="@drawable/bg_member_dot"
+        android:layout_marginEnd="6dp"/>
+
+    <!-- 멤버 텍스트 (박성찬 외 N인) -->
+    <TextView
+        android:id="@+id/tv_members"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:layout_marginEnd="10dp"/>
+
+    <!-- 날짜 -->
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="8sp"
+        android:textColor="#FFFFFF"/>
+
+</LinearLayout>

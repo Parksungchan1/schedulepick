@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp" android:height="100dp"
+    android:viewportWidth="100" android:viewportHeight="100">
+
+    <!-- 보라/핑크 배경 -->
+    <path android:fillColor="#9C27B0" android:pathData="M0,0H100V100H0Z"/>
+
+    <!-- 왼쪽 귀 (길쭉한 타원) -->
+    <path android:fillColor="#7B1FA2"
+        android:pathData="M30,50 A12,30,0,1,0,46,50 A12,30,0,1,0,30,50 Z"/>
+    <!-- 왼쪽 귀 안쪽 -->
+    <path android:fillColor="#F48FB1"
+        android:pathData="M33,50 A7,24,0,1,0,43,50 A7,24,0,1,0,33,50 Z"/>
+
+    <!-- 오른쪽 귀 (길쭉한 타원) -->
+    <path android:fillColor="#7B1FA2"
+        android:pathData="M54,50 A12,30,0,1,0,70,50 A12,30,0,1,0,54,50 Z"/>
+    <!-- 오른쪽 귀 안쪽 -->
+    <path android:fillColor="#F48FB1"
+        android:pathData="M57,50 A7,24,0,1,0,67,50 A7,24,0,1,0,57,50 Z"/>
+
+    <!-- 얼굴 원 -->
+    <path android:fillColor="#F3E5F5"
+        android:pathData="M50,24 A32,32,0,1,0,50,88 A32,32,0,1,0,50,24 Z"/>
+
+    <!-- 왼쪽 볼 (분홍 동그라미) -->
+    <path android:fillColor="#F48FB1"
+        android:pathData="M32,66 A8,5,0,1,0,48,66 A8,5,0,1,0,32,66 Z"/>
+    <!-- 오른쪽 볼 (분홍 동그라미) -->
+    <path android:fillColor="#F48FB1"
+        android:pathData="M52,66 A8,5,0,1,0,68,66 A8,5,0,1,0,52,66 Z"/>
+
+    <!-- 왼쪽 눈 (붉은 토끼 눈) -->
+    <path android:fillColor="#E53935"
+        android:pathData="M36,54 A6,6,0,1,0,36,42 A6,6,0,1,0,36,54 Z"/>
+    <!-- 왼쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M39,45 A2,2,0,1,0,39,41 A2,2,0,1,0,39,45 Z"/>
+
+    <!-- 오른쪽 눈 (붉은 토끼 눈) -->
+    <path android:fillColor="#E53935"
+        android:pathData="M64,54 A6,6,0,1,0,64,42 A6,6,0,1,0,64,54 Z"/>
+    <!-- 오른쪽 눈 하이라이트 -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M67,45 A2,2,0,1,0,67,41 A2,2,0,1,0,67,45 Z"/>
+
+    <!-- 코 (작은 분홍 삼각형) -->
+    <path android:fillColor="#F48FB1"
+        android:pathData="M47,62 L50,58 L53,62 Z"/>
+
+    <!-- 입 -->
+    <path android:strokeColor="#CE93D8" android:strokeWidth="1.8" android:fillColor="#00000000"
+        android:pathData="M44,65 Q50,71 56,65"/>
+</vector>

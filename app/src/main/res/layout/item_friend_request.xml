@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp"
+    android:gravity="center_vertical"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:id="@+id/iv_request_profile"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/ic_default_profile"
+        android:background="@drawable/bg_profile_circle"
+        android:scaleType="centerCrop"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="프로필"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_request_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="닉네임"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_request_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이메일"
+            android:textSize="12sp"
+            android:textColor="#535353"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_accept"
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:text="수락"
+        android:textSize="12sp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:background="@drawable/bg_today_circle"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginEnd="6dp"/>
+
+    <TextView
+        android:id="@+id/btn_reject"
+        android:layout_width="56dp"
+        android:layout_height="32dp"
+        android:text="거절"
+        android:textSize="12sp"
+        android:textColor="#827EFF"
+        android:gravity="center"
+        android:background="@drawable/bg_schedule_group_pill"
+        android:clickable="true"
+        android:focusable="true"/>
+
+</LinearLayout>

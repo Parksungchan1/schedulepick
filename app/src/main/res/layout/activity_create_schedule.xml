@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- ── 상단 바 ── -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:paddingHorizontal="20dp"
+            android:background="#F5F5F5">
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="24dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_logo"
+                android:scaleType="fitCenter"
+                android:contentDescription="로고"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:id="@+id/tv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SCHEDULE\nPICK"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:lineSpacingExtra="2dp"
+                android:layout_toEndOf="@id/iv_logo"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"/>
+
+        </RelativeLayout>
+
+        <!-- ── 카드 1: 일정 이름 + 일시 ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_schedule_card"
+            android:padding="20dp">
+
+            <!-- 새로운 일정 생성 타이틀 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="새로운 일정 생성"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 일정 이름 입력 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일정 이름"
+                android:textSize="11sp"
+                android:textColor="#535353"
+                android:layout_marginBottom="4dp"/>
+
+            <EditText
+                android:id="@+id/et_schedule_name"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:hint="일정의 이름을 입력해주세요"
+                android:textColorHint="#BABABA"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:inputType="text"
+                android:layout_marginBottom="12dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#AFAFAF"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- 일정 일시 섹션 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일정 일시"
+                android:textSize="11sp"
+                android:textColor="#535353"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- 시작 일시 행 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:text="시작"
+                    android:textSize="11sp"
+                    android:textColor="#535353"/>
+
+                <!-- 월 네비게이션 -->
+                <ImageView
+                    android:id="@+id/btn_start_month_prev"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_left"
+                    android:contentDescription="이전"
+                    android:layout_marginStart="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_start_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="04월"
+                    android:textSize="11sp"
+                    android:textColor="#000000"
+                    android:layout_marginHorizontal="4dp"/>
+
+                <ImageView
+                    android:id="@+id/btn_start_month_next"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:contentDescription="다음"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- 날짜 -->
+                <TextView
+                    android:id="@+id/tv_start_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--/--"
+                    android:textSize="13sp"
+                    android:textColor="#000000"
+                    android:layout_marginEnd="10dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- AM/PM 토글 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_calendar_toggle"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/btn_start_am"
+                        android:layout_width="32dp"
+                        android:layout_height="22dp"
+                        android:text="AM"
+                        android:textSize="10sp"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"
+                        android:background="@drawable/bg_calendar_tab_active"/>
+
+                    <TextView
+                        android:id="@+id/btn_start_pm"
+                        android:layout_width="32dp"
+                        android:layout_height="22dp"
+                        android:text="PM"
+                        android:textSize="10sp"
+                        android:textColor="#827EFF"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <!-- 시간 -->
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--:--"
+                    android:textSize="13sp"
+                    android:textColor="#000000"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E6E6E6"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- 종료 일시 행 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:text="종료"
+                    android:textSize="11sp"
+                    android:textColor="#535353"/>
+
+                <!-- 월 네비게이션 -->
+                <ImageView
+                    android:id="@+id/btn_end_month_prev"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_left"
+                    android:contentDescription="이전"
+                    android:layout_marginStart="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_end_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="04월"
+                    android:textSize="11sp"
+                    android:textColor="#000000"
+                    android:layout_marginHorizontal="4dp"/>
+
+                <ImageView
+                    android:id="@+id/btn_end_month_next"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:contentDescription="다음"
+                    android:layout_marginEnd="8dp"/>
+
+                <!-- 날짜 -->
+                <TextView
+                    android:id="@+id/tv_end_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--/--"
+                    android:textSize="13sp"
+                    android:textColor="#000000"
+                    android:layout_marginEnd="10dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- AM/PM 토글 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/bg_calendar_toggle"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp">
+
+                    <TextView
+                        android:id="@+id/btn_end_am"
+                        android:layout_width="32dp"
+                        android:layout_height="22dp"
+                        android:text="AM"
+                        android:textSize="10sp"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"
+                        android:background="@drawable/bg_calendar_tab_active"/>
+
+                    <TextView
+                        android:id="@+id/btn_end_pm"
+                        android:layout_width="32dp"
+                        android:layout_height="22dp"
+                        android:text="PM"
+                        android:textSize="10sp"
+                        android:textColor="#827EFF"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+                <!-- 시간 -->
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--:--"
+                    android:textSize="13sp"
+                    android:textColor="#000000"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ── 카드 2: 캘린더 + 그룹 + 카테고리 + 참여자 ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_schedule_card"
+            android:padding="16dp">
+
+            <!-- 날짜 범위 선택 캘린더 -->
+
+            <!-- 달력 헤더: < 월 연도 > -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginBottom="6dp">
+
+                <ImageView
+                    android:id="@+id/btn_cal_prev"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_left"
+                    android:contentDescription="이전 달"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_centerInParent="true">
+
+                    <TextView
+                        android:id="@+id/tv_cal_month_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="APRIL"
+                        android:textSize="13sp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_cal_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2025"
+                        android:textSize="11sp"
+                        android:textColor="#A2A2A2"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btn_cal_next"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_arrow_right"
+                    android:contentDescription="다음 달"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <!-- 요일 헤더 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:orientation="horizontal">
+
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Sun" android:textSize="10sp"
+                    android:textColor="#FF5858" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Mon" android:textSize="10sp"
+                    android:textColor="#535353" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Tue" android:textSize="10sp"
+                    android:textColor="#535353" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Wed" android:textSize="10sp"
+                    android:textColor="#535353" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Thu" android:textSize="10sp"
+                    android:textColor="#535353" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Fri" android:textSize="10sp"
+                    android:textColor="#535353" android:gravity="center"/>
+                <TextView android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:text="Sat" android:textSize="10sp"
+                    android:textColor="#526AE4" android:gravity="center"/>
+
+            </LinearLayout>
+
+            <!-- 날짜 범위 선택 GridView -->
+            <GridView
+                android:id="@+id/gv_schedule_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:numColumns="7"
+                android:verticalSpacing="0dp"
+                android:horizontalSpacing="0dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E6E6E6"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- 공유 그룹 섹션 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="공유 그룹"
+                android:textSize="11sp"
+                android:textColor="#535353"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- 그룹 필 목록 (Firebase에서 로드) -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:layout_marginBottom="14dp">
+
+                <LinearLayout
+                    android:id="@+id/layout_group_pills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"/>
+
+            </HorizontalScrollView>
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E6E6E6"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- 카테고리 섹션 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:textSize="11sp"
+                android:textColor="#535353"
+                android:layout_marginBottom="8dp"/>
+
+            <FrameLayout
+                android:id="@+id/btn_category"
+                android:layout_width="111dp"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_schedule_category_tag"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="14dp">
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="카테고리 선택"
+                    android:textSize="10sp"
+                    android:textColor="#535353"
+                    android:layout_gravity="center"/>
+
+            </FrameLayout>
+
+            <!-- 구분선 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E6E6E6"
+                android:layout_marginBottom="14dp"/>
+
+            <!-- 참여자 섹션 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="참여자"
+                android:textSize="11sp"
+                android:textColor="#535353"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- 참여자 원형 아이콘 목록 (Java에서 동적 추가) -->
+                <LinearLayout
+                    android:id="@+id/layout_schedule_participants"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"/>
+
+                <!-- 참여자 추가 버튼 -->
+                <FrameLayout
+                    android:id="@+id/btn_add_schedule_participant"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_add_member_circle"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_add"
+                        android:layout_gravity="center"
+                        android:contentDescription="참여자 추가"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 일정 생성 버튼 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_login_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:id="@+id/btn_create_schedule">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="일정 생성"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</ScrollView>

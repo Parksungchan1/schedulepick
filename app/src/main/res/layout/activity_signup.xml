@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="37dp"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp">
+
+        <!-- 로고 이미지 -->
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/ic_logo"
+            android:contentDescription="로고"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- 상단 소형 로고 -->
+
+        <!-- 회원가입 타이틀 -->
+
+        <TextView
+            android:id="@+id/tv_logo_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="216dp"
+            android:lineSpacingExtra="2dp"
+            android:text="SCHEDULE\nPICK"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_logo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="24sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/iv_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"/>
+
+        <!-- ── 아이디 ── -->
+        <TextView
+            android:id="@+id/tv_label_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이디"
+            android:textSize="15sp"
+            android:textColor="#383838"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="28dp"/>
+
+        <EditText
+            android:id="@+id/et_id"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:hint="아이디를 입력해주세요"
+            android:textColorHint="#BABABA"
+            android:textSize="12sp"
+            android:textColor="#383838"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_check_id"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/btn_check_id"
+            android:layout_width="65dp"
+            android:layout_height="23dp"
+            android:text="중복 확인"
+            android:textSize="10sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_small_button"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="0dp"
+            app:layout_constraintTop_toTopOf="@id/et_id"
+            app:layout_constraintBottom_toBottomOf="@id/et_id"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/divider_id"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            app:layout_constraintTop_toBottomOf="@id/et_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── 비밀번호 ── -->
+        <TextView
+            android:id="@+id/tv_label_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호"
+            android:textSize="15sp"
+            android:textColor="#383838"
+            app:layout_constraintTop_toBottomOf="@id/divider_id"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:hint="8자리 이상 비밀번호를 입력해주세요"
+            android:textColorHint="#BABABA"
+            android:textSize="12sp"
+            android:textColor="#383838"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_pw"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/divider_pw"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            app:layout_constraintTop_toBottomOf="@id/et_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── 비밀번호 확인 ── -->
+        <TextView
+            android:id="@+id/tv_label_pw_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 확인"
+            android:textSize="14sp"
+            android:textColor="#383838"
+            app:layout_constraintTop_toBottomOf="@id/divider_pw"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/et_password_confirm"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:hint="비밀번호를 다시 한 번 입력해주세요"
+            android:textColorHint="#BABABA"
+            android:textSize="12sp"
+            android:textColor="#383838"
+            android:background="@null"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_pw_confirm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/divider_pw_confirm"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            app:layout_constraintTop_toBottomOf="@id/et_password_confirm"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── 주소 ── -->
+        <TextView
+            android:id="@+id/tv_label_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="주소"
+            android:textSize="15sp"
+            android:textColor="#383838"
+            app:layout_constraintTop_toBottomOf="@id/divider_pw_confirm"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/tv_address_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="* 입력된 주소는 기본 출발지로 저장됩니다"
+            android:textSize="13sp"
+            android:textColor="#535353"
+            app:layout_constraintTop_toTopOf="@id/tv_label_address"
+            app:layout_constraintBottom_toBottomOf="@id/tv_label_address"
+            app:layout_constraintStart_toEndOf="@id/tv_label_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="12dp"/>
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:hint="예 ) 천안시 동남구 백석대학로 1"
+            android:textColorHint="#BABABA"
+            android:textSize="12sp"
+            android:textColor="#383838"
+            android:background="@null"
+            android:inputType="text"
+            android:maxLines="1"
+            app:layout_constraintTop_toBottomOf="@id/tv_label_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_search_address"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/btn_search_address"
+            android:layout_width="45dp"
+            android:layout_height="25dp"
+            android:text="검색"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_small_button"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="0dp"
+            app:layout_constraintTop_toTopOf="@id/et_address"
+            app:layout_constraintBottom_toBottomOf="@id/et_address"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/divider_address"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#DDDDDD"
+            app:layout_constraintTop_toBottomOf="@id/et_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── 회원가입 버튼 ── -->
+        <TextView
+            android:id="@+id/btn_signup"
+            android:layout_width="0dp"
+            android:layout_height="53dp"
+            android:text="회원가입"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_login_button"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintTop_toBottomOf="@id/divider_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="36dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
